@@ -1,5 +1,6 @@
 package lt.velykis.roberta.bookstore.book;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -8,7 +9,12 @@ import java.util.List;
 @Path("books")
 public class BookResource {
 
-    private final BookRepository repo = new BookRepository();
+    private final BookRepository repo;
+
+    @Inject
+    public BookResource(BookRepository repo) {
+        this.repo = repo;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
