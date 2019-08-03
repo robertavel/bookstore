@@ -5,6 +5,7 @@ import lt.velykis.roberta.bookstore.book.BookResource;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import javax.inject.Singleton;
 import javax.ws.rs.ApplicationPath;
 
 @ApplicationPath("/api")
@@ -15,7 +16,7 @@ public class Application extends ResourceConfig {
         register(new AbstractBinder() {
             @Override
             protected void configure() {
-                bindAsContract(BookRepository.class);
+                bindAsContract(BookRepository.class).in(Singleton.class);
             }
         });
 
