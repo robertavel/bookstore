@@ -2,7 +2,7 @@ package lt.velykis.roberta.bookstore;
 
 import lt.velykis.roberta.bookstore.book.BookRepository;
 import lt.velykis.roberta.bookstore.book.BookResource;
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.inject.Singleton;
