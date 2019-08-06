@@ -1,4 +1,5 @@
-import lt.velykis.roberta.bookstore.book.*;
+package lt.velykis.roberta.bookstore.book;
+
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
