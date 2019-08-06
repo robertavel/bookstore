@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -29,6 +30,15 @@ public class BookResource {
     public Book find(@PathParam("barcode") String barcode) {
 
         return repo.find(barcode)
+                .orElseThrow(() -> new NotFoundException("Book not found"));
+    }
+
+    @GET
+    @Path("/{barcode}/total")
+    @Produces(MediaType.APPLICATION_JSON)
+    public BigDecimal getTotalPrice(@PathParam("barcode") String barcode) {
+
+        return repo.find(barcode).map(Book::calculateTotalPrice)
                 .orElseThrow(() -> new NotFoundException("Book not found"));
     }
 
