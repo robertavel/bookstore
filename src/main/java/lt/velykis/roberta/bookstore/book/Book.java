@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 
@@ -24,10 +27,17 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Book {
 
+    @NotEmpty
     protected String name;
+    @NotEmpty
     protected String author;
+    @NotEmpty
     protected String barcode;
+    @NotNull
+    @Min(0)
     protected Long quantity;
+    @NotNull
+    @Min(0)
     protected BigDecimal price;
 
     public BigDecimal calculateTotalPrice() {

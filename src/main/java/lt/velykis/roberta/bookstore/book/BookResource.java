@@ -1,6 +1,7 @@
 package lt.velykis.roberta.bookstore.book;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -32,7 +33,7 @@ public class BookResource {
     }
 
     @POST
-    public void add(Book book) {
+    public void add(@Valid Book book) {
 
         if (repo.find(book.getBarcode()).isPresent()) {
             throw new BadRequestException();
@@ -42,7 +43,7 @@ public class BookResource {
 
     @PUT
     @Path("/{barcode}")
-    public void update(@PathParam("barcode") String barcode, Book book) {
+    public void update(@PathParam("barcode") String barcode, @Valid Book book) {
 
         if (!repo.find(barcode).isPresent()) {
             throw new NotFoundException();
