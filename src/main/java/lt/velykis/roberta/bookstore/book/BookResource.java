@@ -38,8 +38,7 @@ public class BookResource {
     @Produces(MediaType.APPLICATION_JSON)
     public BigDecimal getTotalPrice(@PathParam("barcode") String barcode) {
 
-        return repo.find(barcode).map(Book::calculateTotalPrice)
-                .orElseThrow(() -> new NotFoundException("Book not found"));
+        return find(barcode).calculateTotalPrice();
     }
 
     @POST
