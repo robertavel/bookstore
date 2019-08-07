@@ -24,8 +24,16 @@ public class BookResourceIntegrationTest extends JerseyTest {
     private final static Book BOOK1 = new Book("book1", "author1", "barcode1", 12L, new BigDecimal(12));
     private final static Book BOOK2 = new Book("book2", "author2", "barcode2", 122L, new BigDecimal(122));
 
+    private final static Book JOURNAL_WITH_INVALID_INDEX = new Journal("journal", "author", "barcode", 12L, new BigDecimal(122), 15);
+    private final static Book ABOOK_WITH_INVALID_YEAR = new AntiqueBook("aBook", "author", "barcode", 12L, new BigDecimal(12), 2000);
+
+
     private static final String BOOK1_JSON =
             "{\"type\":\"book\",\"name\":\"book1\",\"author\":\"author1\",\"barcode\":\"barcode1\",\"quantity\":12,\"price\":12}";
+    private static final String JOURNAL_WITH_INVALID_INDEX_JSON =
+            "{\"type\":\"journal\",\"name\":\"journal\",\"author\":\"author\",\"barcode\":\"barcode\",\"quantity\":12,\"price\":12,\"index\":15}";
+    private static final String ABOOK_WITH_INVALID_YEAR_JSON =
+            "{\"type\":\"antiqueBook\",\"name\":\"aBook\",\"author\":\"author\",\"barcode\":\"barcode\",\"quantity\":12,\"price\":12,\"year\":2000}";
 
     private final static List<Book> BOOKS = Arrays.asList(
             BOOK1,
@@ -188,5 +196,27 @@ public class BookResourceIntegrationTest extends JerseyTest {
         Mockito.verify(repo).deleteAll();
     }
 
+    @Test
+    public void validation_AddJournalWithInvalidIndex_badRequest() {
 
+        Mockito.when(repo.find("barcode")).thenReturn(Optional.empty());
+        Mockito.when(repo.addNew(JOURNAL_WITH_INVALID_INDEX)).thenReturn(JOURNAL_WITH_INVALID_INDEX);
+
+        Response response = target("books/barcode").request()
+                .put(Entity.json(JOURNAL_WITH_INVALID_INDEX_JSON));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test
+    public void validation_AddAntiqueBooklWithInvalidYear_badRequest() {
+
+        Mockito.when(repo.find("barcode")).thenReturn(Optional.empty());
+        Mockito.when(repo.addNew(ABOOK_WITH_INVALID_YEAR)).thenReturn(ABOOK_WITH_INVALID_YEAR);
+
+        Response response = target("books/barcode").request()
+                .put(Entity.json(ABOOK_WITH_INVALID_YEAR_JSON));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
+    }
 }
