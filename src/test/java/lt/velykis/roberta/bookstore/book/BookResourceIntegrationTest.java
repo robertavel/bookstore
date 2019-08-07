@@ -98,6 +98,16 @@ public class BookResourceIntegrationTest extends JerseyTest {
     }
 
     @Test
+    public void calculateTotalPrice_ok() {
+
+        Mockito.when(repo.find("barcode1")).thenReturn(Optional.of(BOOK1));
+        Response response = target("books/barcode1/total").request().get();
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+        assertThat(BOOK1.calculateTotalPrice()).isEqualTo(new BigDecimal(144));
+    }
+
+    @Test
     public void addBook_ok() {
 
         Mockito.when(repo.find("barcode1")).thenReturn(Optional.empty());
