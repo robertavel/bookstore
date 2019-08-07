@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class AntiqueBook extends Book {
 
     @NotNull
-    @Max(value = 1900, message = "must be before 1900")
+    @Max(value = 1900, message = "Year must be before 1900")
     private int year;
 
     public AntiqueBook(String name, String author, String barcode, Long quantity, BigDecimal price, int year) {
