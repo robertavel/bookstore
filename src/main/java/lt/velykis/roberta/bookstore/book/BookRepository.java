@@ -17,10 +17,10 @@ public class BookRepository {
         return Stream.of(
                 new Book("Effective Java", "Joshua Bloch", "1212", 5L, new BigDecimal(10.00)),
                 new Book("Thinking in Java", "Bruce Eckel", "2323", 10L, new BigDecimal(12.00)),
-                new AntiqueBook("AntiqueBook1", "John Smith", "4545", 5L, new BigDecimal(10.00), 1880),
-                new AntiqueBook("AntiqueBook2", "Joe Parker", "5656", 10L, new BigDecimal(12.00), 1789),
-                new Journal("Journal", "Joshua Bloch", "6767", 5L, new BigDecimal(10.00), 5),
-                new Journal("Journal", "Bruce Eckel", "7878", 10L, new BigDecimal(12.00), 7)
+                new AntiqueBook("AntiqueBook1", "John Smith", "4545", 8L, new BigDecimal(10.00), 1880),
+                new AntiqueBook("AntiqueBook2", "Joe Jones", "5656", 10L, new BigDecimal(12.00), 1789),
+                new Journal("Journal1", "Tim Bloch", "6767", 9L, new BigDecimal(10.00), 5),
+                new Journal("Journal2", "Andrew Cook", "7878", 11L, new BigDecimal(12.00), 7)
         ).collect(Collectors.toMap(Book::getBarcode, b -> b));
     }
 
