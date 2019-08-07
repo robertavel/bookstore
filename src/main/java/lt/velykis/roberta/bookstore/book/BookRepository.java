@@ -32,12 +32,14 @@ public class BookRepository {
         return Optional.ofNullable(books.get(barcode));
     }
 
-    public void addNew(Book book) {
+    public Book addNew(Book book) {
         books.put(book.getBarcode(), book);
+        return book;
     }
 
-    public void update(String barcode, Book book) {
+    public Book update(String barcode, Book book) {
         books.put(book.getBarcode(), book);
+        return book;
     }
 
     public void delete(String barcode) {

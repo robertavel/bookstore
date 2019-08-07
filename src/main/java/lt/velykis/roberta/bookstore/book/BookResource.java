@@ -42,22 +42,24 @@ public class BookResource {
     }
 
     @POST
-    public void add(@Valid Book book) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Book add(@Valid Book book) {
 
         if (repo.find(book.getBarcode()).isPresent()) {
             throw new BadRequestException();
         }
-        repo.addNew(book);
+        return repo.addNew(book);
     }
 
     @PUT
     @Path("/{barcode}")
-    public void update(@PathParam("barcode") String barcode, @Valid Book book) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Book update(@PathParam("barcode") String barcode, @Valid Book book) {
 
         if (!repo.find(barcode).isPresent()) {
             throw new NotFoundException();
         }
-        repo.update(barcode, book);
+        return repo.update(barcode, book);
     }
 
     @DELETE

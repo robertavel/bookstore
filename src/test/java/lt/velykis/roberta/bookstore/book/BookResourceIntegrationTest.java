@@ -119,12 +119,12 @@ public class BookResourceIntegrationTest extends JerseyTest {
     public void addBook_ok() {
 
         Mockito.when(repo.find("barcode1")).thenReturn(Optional.empty());
-        Mockito.doNothing().when(repo).addNew(BOOK1);
+        Mockito.when(repo.addNew(BOOK1)).thenReturn(BOOK1);
 
         Response response = target("books").request()
                 .post(Entity.json(BOOK1_JSON));
 
-        assertThat(response.getStatus()).isEqualTo(Response.Status.NO_CONTENT.getStatusCode());
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
         Mockito.verify(repo).addNew(BOOK1);
 
     }
@@ -133,7 +133,6 @@ public class BookResourceIntegrationTest extends JerseyTest {
     public void addBook_badRequest() {
 
         Mockito.when(repo.find("barcode1")).thenReturn(Optional.of(BOOK1));
-        Mockito.doNothing().when(repo).addNew(BOOK1);
 
         Response response = target("books").request()
                 .post(Entity.json(BOOK1_JSON));
@@ -144,20 +143,17 @@ public class BookResourceIntegrationTest extends JerseyTest {
     @Test
     public void editBook_ok() {
         Mockito.when(repo.find("barcode1")).thenReturn(Optional.of(BOOK1));
-        Mockito.doNothing().when(repo).update("barcode1", BOOK1);
+        Mockito.when(repo.update("barcode1", BOOK1)).thenReturn(BOOK1);
 
         Response response = target("books/barcode1").request()
                 .put(Entity.json(BOOK1_JSON));
 
-        assertThat(response.getStatus()).isEqualTo(Response.Status.NO_CONTENT.getStatusCode());
-        Mockito.verify(repo).update("barcode1", BOOK1);
-
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
     }
 
     @Test
     public void editBook_notFound() {
         Mockito.when(repo.find("barcode2")).thenReturn(Optional.empty());
-        Mockito.doNothing().when(repo).update("barcode1", BOOK1);
 
         Response response = target("books/barcode2").request()
                 .put(Entity.json(BOOK1_JSON));
