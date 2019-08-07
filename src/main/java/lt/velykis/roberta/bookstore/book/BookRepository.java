@@ -37,7 +37,7 @@ public class BookRepository {
         return book;
     }
 
-    public Book update(String barcode, Book book) {
+    public Book update(Book book) {
         books.put(book.getBarcode(), book);
         return book;
     }

@@ -59,7 +59,12 @@ public class BookResource {
         if (!repo.find(barcode).isPresent()) {
             throw new NotFoundException();
         }
-        return repo.update(barcode, book);
+
+        if (!barcode.equals(book.getBarcode())) {
+            throw new BadRequestException();
+        }
+
+        return repo.update(book);
     }
 
     @DELETE

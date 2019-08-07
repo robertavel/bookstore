@@ -30,6 +30,8 @@ public class BookResourceIntegrationTest extends JerseyTest {
 
     private static final String BOOK1_JSON =
             "{\"type\":\"book\",\"name\":\"book1\",\"author\":\"author1\",\"barcode\":\"barcode1\",\"quantity\":12,\"price\":12}";
+    private static final String BOOK2_JSON =
+            "{\"type\":\"book\",\"name\":\"book2\",\"author\":\"author2\",\"barcode\":\"barcode2\",\"quantity\":1,\"price\":5}";
     private static final String JOURNAL_WITH_INVALID_INDEX_JSON =
             "{\"type\":\"journal\",\"name\":\"journal\",\"author\":\"author\",\"barcode\":\"barcode\",\"quantity\":12,\"price\":12,\"index\":15}";
     private static final String ABOOK_WITH_INVALID_YEAR_JSON =
@@ -143,12 +145,22 @@ public class BookResourceIntegrationTest extends JerseyTest {
     @Test
     public void editBook_ok() {
         Mockito.when(repo.find("barcode1")).thenReturn(Optional.of(BOOK1));
-        Mockito.when(repo.update("barcode1", BOOK1)).thenReturn(BOOK1);
+        Mockito.when(repo.update(BOOK1)).thenReturn(BOOK1);
 
         Response response = target("books/barcode1").request()
                 .put(Entity.json(BOOK1_JSON));
 
         assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void editBook_differentBarcode_badRequest() {
+        Mockito.when(repo.find("barcode1")).thenReturn(Optional.of(BOOK1));
+
+        Response response = target("books/barcode1").request()
+                .put(Entity.json(BOOK2_JSON));
+
+        assertThat(response.getStatus()).isEqualTo(Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test
